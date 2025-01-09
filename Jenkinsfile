@@ -12,7 +12,7 @@ pipeline {
             steps {
                 script {
                     // Build Docker image with the specified tag
-                    app = docker.build('apurvanaik422/seldocker100')
+                    app = docker.build('apurvanaik422/seldocker100:latest')
                 }
             }
         }
@@ -22,7 +22,7 @@ pipeline {
                 script {
                     // Push the built image to DockerHub using the credentials
                     docker.withRegistry('', 'dockercred') {
-                        docker.push('latest')
+                        docker.push('apurvanaik422/seldocker100:latest')
                     }
                 }
             }
