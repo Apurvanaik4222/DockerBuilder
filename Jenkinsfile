@@ -1,51 +1,47 @@
-
-
 pipeline {
     agent any
 
     stages {
-        stage('Building JARs') {
-            agent {
-                docker {
-                    image 'maven:3.9.3-eclipse-temurin-17-focal'
-                    args '-u root -v /tmp/m2:/root/.m2'
-                }
-            }
+        stage('Building jars') {
             steps {
-                script {
-                    // Ensure the workspace path is Docker-compatible (escaping '@' if necessary)
-                    def transformedPath = env.WORKSPACE.replace('\\', '/').replace('C:', '/c')
-                    // Try to print the transformed path to check
-                    echo "Transformed Workspace Path: ${transformedPath}"
-
-                    // If the @ character is causing issues, escape or enclose paths in quotes
-                    def workspacePath = transformedPath.replace('@', '\\@')
-                    echo "Adjusted Path for Docker: ${workspacePath}"
-
-                    // Run Maven build
-                    sh "mvn clean package -DskipTests"
-                }
+                bat "mvn clean package -DskipTests"
             }
         }
 
         stage('Creating an Image') {
             steps {
-                script {
-                    // Build the Docker image
-                    app = docker.build('apurvanaik422/seldocker100')
-                }
+                bat "docker build -t apurvanaik422/seldocker100 ."
             }
         }
 
         stage('Pushing Image to DockerHub') {
-            steps {
-                script {
-                    docker.withRegistry('', 'dockercred') {
-                        // Push the image with the 'latest' tag
-                        app.push('latest')
-                    }
-                }
+            environment {
+                DOCKER_HUB = credentials('dockercred') // Use Jenkins credentials for DockerHub
             }
+
+            steps {
+                // Print out the variables for debugging (avoid printing passwords in production)
+                bat 'echo %DOCKER_HUB_USR%'
+                bat 'echo %DOCKER_HUB_PSW%'
+
+                // Secure login to DockerHub using --password-stdin
+
+                        bat 'docker login -u %DOCKER_HUB_USR% -p %DOCKER_HUB_PSW% '
+
+
+                // Push the image to DockerHub
+                bat "docker push apurvanaik422/seldocker100"
+                //Taging
+                //bat "docker tag apurvanaik422/seldocker100:latest apurvanaik422/seldocker100:${env.BUILD_NUMBER}"
+                //bat "docker push apurvanaik422/seldocker100:${env.BUILD_NUMBER}"
+            }
+        }
+    }
+
+    post {
+        always {
+            // Logout from DockerHub after pipeline execution
+            bat "docker logout"
         }
     }
 }
