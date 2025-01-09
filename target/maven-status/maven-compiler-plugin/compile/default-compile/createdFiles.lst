@@ -1,0 +1,7 @@
+pojo\FlightReservation\Reservation.class
+pages\FlightReservationPages\FlightConfirmationPage.class
+pages\FlightReservationPages\SelectFlightPage.class
+pages\FlightReservationPages\RegistrationPage.class
+pages\FlightReservationPages\FlightSearchPage.class
+pages\FlightReservationPages\RegistrationConfirmationPage.class
+pages\FlightReservationPages\AbstractPage.class

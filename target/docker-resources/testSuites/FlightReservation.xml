@@ -1,0 +1,12 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.1.dtd" >
+<suite name="FlightReservation Suite" parallel="tests" thread-count="5">
+    <listeners>
+        <listener class-name="Utils.Listeners" />
+    </listeners>
+    <test name="FlightReservation Test">
+        <parameter name="filePath" value="/home/selenium-docker/DataFiles/TestData.json" />
+        <classes>
+            <class name="test.ReservationTest" />
+        </classes>
+    </test>
+</suite>

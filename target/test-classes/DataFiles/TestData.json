@@ -1,0 +1,11 @@
+{
+  "firstName":"joe",
+  "lastName":"doe",
+  "email":"test1@gmail.com",
+  "password":"test@1234",
+  "street":"MG Road",
+  "state":"California",
+  "zip":"1234",
+  "noOfPassengers":"Two",
+  "expectedPrice":"$1169 USD"
+}
