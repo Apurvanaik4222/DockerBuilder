@@ -6,11 +6,23 @@ pipeline {
             agent {
                 docker {
                     image 'maven:3.9.3-eclipse-temurin-17-focal'
-                    args '-v C:/Users/91762/DockerVolumeTest/DockerFile/Workspace/Jenkins/volumes/NodeServer/workspace:/workspace -w /workspace -u root -v /tmp/m2:/root/.m2'
+                    args '-u root -v /tmp/m2:/root/.m2'
                 }
             }
             steps {
-                sh "mvn clean package -DskipTests"
+                script {
+                    // Ensure the workspace path is Docker-compatible (escaping '@' if necessary)
+                    def transformedPath = env.WORKSPACE.replace('\\', '/').replace('C:', '/c')
+                    // Try to print the transformed path to check
+                    echo "Transformed Workspace Path: ${transformedPath}"
+
+                    // If the @ character is causing issues, escape or enclose paths in quotes
+                    def workspacePath = transformedPath.replace('@', '\\@')
+                    echo "Adjusted Path for Docker: ${workspacePath}"
+
+                    // Run Maven build
+                    sh "mvn clean package -DskipTests"
+                }
             }
         }
 
