@@ -69,11 +69,13 @@ public class BaseTest {
             else
                 capabilities.setBrowserName(Constants.EDGE);
 
-           String hubHost = Config.getProperty(Constants.GRID_HUB_HOST);
+           String hubHost ="hub";
            String urlFormat =Config.getProperty(Constants.GRID_URL_FORMAT);
            String url =String.format(urlFormat,hubHost);
         logg.info("--------HUB_HOST----------");
-        logg.info(Config.getProperty("HUB_HOST"));
+        logg.info(Config.getProperty("hubHost"));
+        logg.info("--------URL----------");
+        logg.info(url);
         return new RemoteWebDriver(new URL(url),capabilities);
     }
 
