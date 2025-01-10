@@ -44,6 +44,6 @@ java -cp 'libs/*' \
      -Dselenium.grid.hubhost="${HUB_HOST:-hub}" \
      -Dbrowser="${BROWSER:-chrome}" \
      -DCONFIG_PATH="${CONFIG_PATH:-/home/selenium-docker/config/global.properties}" \
-     org.testng.TestNG \
+      org.testng.TestNG \
      -threadcount "${THREAD_COUNT:-1}" \
-     testSuites/"${TEST_SUITE}"
+      testSuites/"${TEST_SUITE}"
