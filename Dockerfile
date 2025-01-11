@@ -1,8 +1,8 @@
 FROM bellsoft/liberica-openjdk-alpine:17.0.8
 
-#Install curl jq
-RUN apk add curl jq
-RUN apt-get update && apt-get install -y bash
+# Install curl, jq, and bash (using apk instead of apt-get)
+RUN apk update && apk add --no-cache curl jq bash
+
 
 
 #Working directory
